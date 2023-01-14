@@ -28,13 +28,12 @@ public class Endereco implements Serializable {
 	@ManyToOne
 	private Pessoa pessoa;
 	
-	public Endereco(Long id, String logradouro, String cep, String numero, String cidade, Pessoa pessoa) {
+	public Endereco(Long id, String logradouro, String cep, String numero, String cidade) {
 		this.id = id;
 		Logradouro = logradouro;
 		this.cep = cep;
 		this.numero = numero;
 		this.cidade = cidade;
-		this.pessoa = pessoa;
 	}
 
 	public Endereco() {

@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.attornatus.pessoasapi.dto.EnderecoDto;
 import br.com.attornatus.pessoasapi.dto.PessoaDto;
+import br.com.attornatus.pessoasapi.entities.Endereco;
 import br.com.attornatus.pessoasapi.entities.Pessoa;
 import br.com.attornatus.pessoasapi.repositories.PessoaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,16 +19,18 @@ public class PessoaService {
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	@Autowired
+	private EnderecoService enderecoService;
 
 	public PessoaService(PessoaRepository pessoaRepository) {
 		this.pessoaRepository = pessoaRepository;
 	}
 	
-	
+	@Transactional
 	public Pessoa criarPessoa(Pessoa pessoa) {
 		return pessoaRepository.save(pessoa);
 	}
-	@Transactional
+	
 	public void editarPessoa(Pessoa pessoa, PessoaDto pessoaDto) {
 		if(pessoaDto.getNome() != null) {
 			pessoa.setNome(pessoaDto.getNome());
@@ -46,6 +50,19 @@ public class PessoaService {
 	
 	public List<Pessoa> listarPessoas(){
 		return pessoaRepository.findAll();
+	}
+	
+	//criar um metodo que busca o endereco pelo cep
+	@Transactional
+	public Endereco adicionarEndereco(Pessoa pessoa, Endereco endereco) {
+		Endereco end = enderecoService.salvarEndereco(endereco);
+		pessoa.getEndereco().add(end);
+		criarPessoa(pessoa);
+		
+		end.setPessoa(pessoa);
+		enderecoService.salvarEndereco(endereco);
+		
+		return end;
 	}
 	
 }
