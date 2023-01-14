@@ -2,14 +2,17 @@ package br.com.attornatus.pessoasapi.entities;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_enderecos")
+@Table(name = "tb_endereco")
 public class Endereco implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -21,15 +24,29 @@ public class Endereco implements Serializable {
 	private String numero;
 	private String cidade;
 	
-	public Endereco(Long id, String logradouro, String cep, String numero, String cidade) {
+	@JsonIgnore
+	@ManyToOne
+	private Pessoa pessoa;
+	
+	public Endereco(Long id, String logradouro, String cep, String numero, String cidade, Pessoa pessoa) {
 		this.id = id;
 		Logradouro = logradouro;
 		this.cep = cep;
 		this.numero = numero;
 		this.cidade = cidade;
+		this.pessoa = pessoa;
 	}
 
 	public Endereco() {
+	}
+
+	
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
 	}
 
 	public String getLogradouro() {

@@ -2,16 +2,19 @@ package br.com.attornatus.pessoasapi.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_pessoas")
-public class Pessoas implements Serializable {
+public class Pessoa implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -19,16 +22,19 @@ public class Pessoas implements Serializable {
 	private Long id;
 	private String nome;
 	private LocalDate dataNasc;
-	private Endereco endereco;
 	
-	public Pessoas(Long id, String nome, LocalDate dataNasc, Endereco endereco) {
+	
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<Endereco> endereco;
+	
+	public Pessoa(Long id, String nome, LocalDate dataNasc, List<Endereco> endereco) {
 		this.id = id;
 		this.nome = nome;
 		this.dataNasc = dataNasc;
 		this.endereco = endereco;
 	}
 
-	public Pessoas() {
+	public Pessoa() {
 	}
 
 	public String getNome() {
@@ -47,11 +53,12 @@ public class Pessoas implements Serializable {
 		this.dataNasc = dataNasc;
 	}
 
-	public Endereco getEndereco() {
+
+	public List<Endereco> getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereco(Endereco endereco) {
+	public void setEndereco(List<Endereco> endereco) {
 		this.endereco = endereco;
 	}
 
