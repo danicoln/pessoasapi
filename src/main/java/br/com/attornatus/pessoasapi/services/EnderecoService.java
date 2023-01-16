@@ -1,5 +1,7 @@
 package br.com.attornatus.pessoasapi.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,18 @@ public class EnderecoService {
 		return enderecoRepository.save(endereco);
 	}
 	
+	public List<Endereco> addEndereco(Endereco endereco){
+		List<Endereco> enderecos = new ArrayList<Endereco>();
+		enderecos.add(endereco);
+		return enderecos;
+		
+	}
+	
 	public Optional<Endereco> buscarPorId(Long id) {
 		return enderecoRepository.findById(id);
 	}
 	
+	public List<Endereco> buscarTodosEnderecos(){
+		return enderecoRepository.findAll();
+	}
 }

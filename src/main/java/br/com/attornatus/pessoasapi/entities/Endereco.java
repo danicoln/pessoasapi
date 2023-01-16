@@ -1,6 +1,7 @@
 package br.com.attornatus.pessoasapi.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -8,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -28,12 +30,13 @@ public class Endereco implements Serializable {
 	@ManyToOne
 	private Pessoa pessoa;
 	
-	public Endereco(Long id, String logradouro, String cep, String numero, String cidade) {
+	public Endereco(Long id, String logradouro, String cep, String numero, String cidade, Pessoa pessoa) {
 		this.id = id;
 		Logradouro = logradouro;
 		this.cep = cep;
 		this.numero = numero;
 		this.cidade = cidade;
+		this.pessoa = pessoa;
 	}
 
 	public Endereco() {
@@ -83,5 +86,24 @@ public class Endereco implements Serializable {
 	public Long getId() {
 		return id;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(Logradouro, cep, cidade, id, numero);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Endereco other = (Endereco) obj;
+		return Objects.equals(Logradouro, other.Logradouro) && Objects.equals(cep, other.cep)
+				&& Objects.equals(cidade, other.cidade) && Objects.equals(id, other.id)
+				&& Objects.equals(numero, other.numero);
+	}
+
 }

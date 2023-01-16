@@ -2,6 +2,7 @@ package br.com.attornatus.pessoasapi.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -9,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -25,13 +27,13 @@ public class Pessoa implements Serializable {
 	
 	
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
-	private List<Endereco> endereco;
+	private List<Endereco> enderecos = new ArrayList<Endereco>();
 	
-	public Pessoa(Long id, String nome, LocalDate dataNasc, List<Endereco> endereco) {
+	public Pessoa(Long id, String nome, LocalDate dataNasc, List<Endereco> enderecos) {
 		this.id = id;
 		this.nome = nome;
 		this.dataNasc = dataNasc;
-		this.endereco = endereco;
+		this.enderecos = enderecos;
 	}
 
 	public Pessoa() {
@@ -55,11 +57,12 @@ public class Pessoa implements Serializable {
 
 
 	public List<Endereco> getEndereco() {
-		return endereco;
+		return enderecos;
 	}
 
 	public void setEndereco(List<Endereco> endereco) {
-		this.endereco = endereco;
+		this.enderecos = endereco;
+		
 	}
 
 	public Long getId() {
