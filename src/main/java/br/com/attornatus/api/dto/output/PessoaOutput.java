@@ -2,16 +2,12 @@ package br.com.attornatus.api.dto.output;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class PessoaOutput {
 
 	private Long id;
 	private String nome;
 	private LocalDate dataNasc;
 
-	
-	@JsonIgnore
 	private EnderecoOutput endereco;
 
 	public EnderecoOutput getEndereco() {

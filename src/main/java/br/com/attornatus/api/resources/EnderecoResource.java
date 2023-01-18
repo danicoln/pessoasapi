@@ -1,6 +1,7 @@
 package br.com.attornatus.api.resources;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,42 +25,44 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/enderecos")
 public class EnderecoResource {
-	
+
 	@Autowired
 	private EnderecoService enderecoService;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public EnderecoOutput insert(@RequestBody @Valid EnderecoInput input){
+	public EnderecoOutput insert(@RequestBody @Valid EnderecoInput input) {
 		final var endereco = modelMapper.map(input, Endereco.class);
-		
+
 		return modelMapper.map(enderecoService.insert(endereco), EnderecoOutput.class);
 	}
-	
+
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody @Valid EnderecoInput input){
+	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody @Valid EnderecoInput input) {
 		final var endereco = modelMapper.map(input, Endereco.class);
 		enderecoService.update(id, endereco);
-		
+
 		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/pessoa-id/{id}")
-	public ResponseEntity<List<Endereco>> buscarEndereco(@PathVariable Long id){
-		return ResponseEntity.ok().body(enderecoService.buscarPeloIdPessoa(id));
+	public EnderecoOutput findById(@PathVariable Long id) {
+		return modelMapper.map(enderecoService.findOrFail(id), EnderecoOutput.class);
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<List<Endereco>> listarTodosEnderecos(){
-		return ResponseEntity.ok().body(enderecoService.buscarTodosEnderecos());
+	public List<EnderecoOutput> findAll() {
+		return enderecoService.buscarTodosEnderecos().stream().map(e -> modelMapper.map(e, EnderecoOutput.class))
+				.collect(Collectors.toList());
 	}
-	
+
 	@GetMapping("/pessoa-id/{id}/principal")
-	public ResponseEntity<List<Endereco>> buscarEnderecoPrincipal(@PathVariable Long id){
-		return ResponseEntity.ok().body(enderecoService.buscarUltimoEnderecoPeloIdPessoa(id));
+	public List<EnderecoOutput> buscarEnderecoPrincipal(@PathVariable Long id) {
+		return enderecoService.buscarPeloIdPessoa(id).stream().map(e -> modelMapper.map(e, EnderecoOutput.class))
+				.collect(Collectors.toList());
 	}
-	
+
 }

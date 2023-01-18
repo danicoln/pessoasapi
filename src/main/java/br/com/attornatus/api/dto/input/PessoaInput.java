@@ -2,7 +2,6 @@ package br.com.attornatus.api.dto.input;
 
 import java.time.LocalDate;
 
-import br.com.attornatus.domain.models.Pessoa;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

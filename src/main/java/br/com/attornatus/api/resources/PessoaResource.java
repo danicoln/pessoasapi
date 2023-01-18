@@ -31,33 +31,33 @@ public class PessoaResource {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public PessoaOutput insert(@RequestBody @Valid PessoaInput input){
+	public PessoaOutput insert(@RequestBody @Valid PessoaInput input) {
 		final var pessoa = modelMapper.map(input, Pessoa.class);
-		
+
 		return modelMapper.map(pessoaService.insert(pessoa), PessoaOutput.class);
 	}
-	
-	
+
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody @Valid PessoaInput input){
+	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody @Valid PessoaInput input) {
 		final var pessoa = modelMapper.map(input, Pessoa.class);
 		pessoaService.update(id, pessoa);
-		
+
 		return ResponseEntity.ok().build();
 	}
-	
+
 	@GetMapping("/{id}")
-	public PessoaOutput consultarPessoa(@PathVariable Long id){
+	public PessoaOutput findById(@PathVariable Long id) {
 		return modelMapper.map(pessoaService.findOrFail(id), PessoaOutput.class);
-		
+
 	}
-	
+
 	@GetMapping
-	public List<PessoaOutput> listarPessoa(){
-		return pessoaService.listarPessoas().stream().map(p -> modelMapper.map(p, PessoaOutput.class)).collect(Collectors.toList()); 
+	public List<PessoaOutput> listarPessoa() {
+		return pessoaService.listarPessoas().stream().map(p -> modelMapper.map(p, PessoaOutput.class))
+				.collect(Collectors.toList());
 	}
-	
+
 }
