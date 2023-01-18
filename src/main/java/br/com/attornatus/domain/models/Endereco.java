@@ -1,7 +1,6 @@
-package br.com.attornatus.pessoasapi.entities;
+package br.com.attornatus.domain.models;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -9,7 +8,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -17,7 +15,7 @@ import jakarta.persistence.Table;
 @Table(name = "tb_endereco")
 public class Endereco implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -25,24 +23,20 @@ public class Endereco implements Serializable {
 	private String cep;
 	private String numero;
 	private String cidade;
-	
-	@JsonIgnore
+
+	private boolean principal = false;
+
 	@ManyToOne
 	private Pessoa pessoa;
-	
-	public Endereco(Long id, String logradouro, String cep, String numero, String cidade, Pessoa pessoa) {
-		this.id = id;
-		Logradouro = logradouro;
-		this.cep = cep;
-		this.numero = numero;
-		this.cidade = cidade;
-		this.pessoa = pessoa;
+
+	public boolean getPrincipal() {
+		return principal;
 	}
 
-	public Endereco() {
+	public void setPrincipal(boolean principal) {
+		this.principal = principal;
 	}
 
-	
 	public Pessoa getPessoa() {
 		return pessoa;
 	}
@@ -87,23 +81,8 @@ public class Endereco implements Serializable {
 		return id;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(Logradouro, cep, cidade, id, numero);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Endereco other = (Endereco) obj;
-		return Objects.equals(Logradouro, other.Logradouro) && Objects.equals(cep, other.cep)
-				&& Objects.equals(cidade, other.cidade) && Objects.equals(id, other.id)
-				&& Objects.equals(numero, other.numero);
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

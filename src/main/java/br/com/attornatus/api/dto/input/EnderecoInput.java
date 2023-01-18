@@ -1,30 +1,38 @@
-package br.com.attornatus.pessoasapi.dto;
+package br.com.attornatus.api.dto.input;
 
-public class EnderecoDto {
-	
-	private Long id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public class EnderecoInput {
+
+	@NotBlank
 	private String Logradouro;
+	@NotBlank
 	private String cep;
+	@NotBlank
 	private String numero;
+	@NotBlank
 	private String cidade;
-	
-	public EnderecoDto(Long id, String logradouro, String cep, String numero, String cidade) {
-		this.id = id;
-		Logradouro = logradouro;
-		this.cep = cep;
-		this.numero = numero;
-		this.cidade = cidade;
+
+	private Boolean principal;
+
+	@NotNull
+	private PessoaIdInput pessoa;
+
+	public Boolean getPrincipal() {
+		return principal;
 	}
 
-	public EnderecoDto() {
+	public void setPrincipal(Boolean principal) {
+		this.principal = principal;
 	}
 
-	public Long getId() {
-		return id;
+	public PessoaIdInput getPessoa() {
+		return pessoa;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setPessoa(PessoaIdInput pessoa) {
+		this.pessoa = pessoa;
 	}
 
 	public String getLogradouro() {
@@ -58,5 +66,5 @@ public class EnderecoDto {
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
 	}
-	
+
 }
