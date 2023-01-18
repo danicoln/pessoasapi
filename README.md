@@ -1,5 +1,5 @@
 <header>
-<img src="https://raw.githubusercontent.com/danicoln/assets/148e576b18fc884ed91ab0deedfad1347af30df5/attornatus.svg" alt="Logo Attornatus">
+<img src="https://github.com/danicoln/assets/blob/main/attornatus-png.png?raw=true" alt="Logo Attornatus">
 </header>
 
 <br>
